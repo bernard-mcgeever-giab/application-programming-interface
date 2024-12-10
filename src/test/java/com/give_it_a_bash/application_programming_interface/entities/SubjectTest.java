@@ -25,6 +25,7 @@ public class SubjectTest {
      */
     @BeforeEach
     public void setUp() {
+        TestDataHelper.reset();
         subject = TestDataHelper.getSUBJECT();
     }
 
@@ -35,7 +36,7 @@ public class SubjectTest {
     public void testSubjectProperties() {
         assertThat(subject.getSchoolData()).isEqualTo(TestDataHelper.getSCHOOL_DATA());
         assertThat(subject.getName()).isEqualTo("Psychic Studies");
-        assertThat(subject.getTeacher()).isEqualTo(TestDataHelper.getTEACHER());
+        assertThat(subject.getTeacher()).containsExactly(TestDataHelper.getTEACHER());
         assertThat(subject.getLessons()).containsExactly(TestDataHelper.getLESSON());
     }
 }

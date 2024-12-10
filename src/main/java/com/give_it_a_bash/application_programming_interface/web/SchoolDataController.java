@@ -61,7 +61,7 @@ public class SchoolDataController {
      * @return ResponseEntity containing the SchoolData if found, otherwise a NOT_FOUND status
      */
     @GetMapping("/{id}")
-    public ResponseEntity<SchoolData> getSchoolDataById(@PathVariable Long id) {
+    public ResponseEntity<SchoolData> getSchoolDataById(@PathVariable("id") Long id) {
         Optional<SchoolData> schoolData = schoolDataService.getSchoolDataById(id);
         return schoolData.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -75,7 +75,7 @@ public class SchoolDataController {
      * @return ResponseEntity containing the updated SchoolData and HTTP status
      */
     @PutMapping("/{id}")
-    public ResponseEntity<SchoolData> updateSchoolData(@PathVariable Long id,
+    public ResponseEntity<SchoolData> updateSchoolData(@PathVariable("id") Long id,
                                                        @RequestBody SchoolData schoolDataDetails) {
         try {
             SchoolData updatedSchoolData = schoolDataService.updateSchoolData(id, schoolDataDetails);
@@ -92,7 +92,7 @@ public class SchoolDataController {
      * @return ResponseEntity with HTTP status
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSchoolData(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteSchoolData(@PathVariable("id") Long id) {
         try {
             schoolDataService.deleteSchoolData(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

@@ -61,7 +61,7 @@ public class FacilityController {
      * @return ResponseEntity containing the Facility if found, otherwise a NOT_FOUND status
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Facility> getFacilityById(@PathVariable Long id) {
+    public ResponseEntity<Facility> getFacilityById(@PathVariable("id") Long id) {
         Optional<Facility> facility = facilityService.getFacilityById(id);
         return facility.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -75,7 +75,7 @@ public class FacilityController {
      * @return ResponseEntity containing the updated Facility and HTTP status
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Facility> updateFacility(@PathVariable Long id,
+    public ResponseEntity<Facility> updateFacility(@PathVariable("id") Long id,
                                                    @RequestBody Facility facilityDetails) {
         try {
             Facility updatedFacility = facilityService.updateFacility(id, facilityDetails);
@@ -92,7 +92,7 @@ public class FacilityController {
      * @return ResponseEntity with HTTP status
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFacility(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteFacility(@PathVariable("id") Long id) {
         try {
             facilityService.deleteFacility(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

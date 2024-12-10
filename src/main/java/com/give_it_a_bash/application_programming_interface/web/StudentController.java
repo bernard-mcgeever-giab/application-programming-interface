@@ -61,7 +61,7 @@ public class StudentController {
      * @return ResponseEntity containing the Student if found, otherwise a NOT_FOUND status
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
+    public ResponseEntity<Student> getStudentById(@PathVariable("id") Long id) {
         Optional<Student> student = studentService.getStudentById(id);
         return student.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -75,7 +75,7 @@ public class StudentController {
      * @return ResponseEntity containing the updated Student and HTTP status
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Long id,
+    public ResponseEntity<Student> updateStudent(@PathVariable("id") Long id,
                                                  @RequestBody Student studentDetails) {
         try {
             Student updatedStudent = studentService.updateStudent(id, studentDetails);
@@ -92,7 +92,7 @@ public class StudentController {
      * @return ResponseEntity with HTTP status
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteStudent(@PathVariable("id") Long id) {
         try {
             studentService.deleteStudent(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

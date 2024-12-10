@@ -10,6 +10,7 @@
 
 package com.give_it_a_bash.application_programming_interface.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
@@ -27,7 +28,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Builder
 public class Lesson {
 
     /**
@@ -69,11 +69,24 @@ public class Lesson {
     /**
      * The list of students enrolled in the lesson.
      */
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany
     @JoinTable(
             name = "lesson_students",
             joinColumns = @JoinColumn(name = "lesson_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
     private List<Student> students = new ArrayList<>();
+
+    // No-argument constructor
+    public Lesson() {
+    }
+
+    @Builder
+    public Lesson(LocalDateTime startTime, LocalDateTime endTime, Subject subject, Teacher teacher, List<Student> students) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.subject = subject != null ? subject : new Subject();
+        this.teacher = teacher != null ? teacher : new Teacher();
+        this.students = students != null ? students : new ArrayList<>();
+    }
 }

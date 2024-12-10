@@ -23,7 +23,6 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
-@Builder
 public class Achievement {
 
     /**
@@ -70,4 +69,19 @@ public class Achievement {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private SubjectCategory category;
+
+    // No-argument constructor
+    public Achievement() {
+    }
+
+    @Builder
+    public Achievement(String title, String description, LocalDate dateAwarded, String awardedBy,
+                       SubjectCategory category, Student student) {
+        this.title = title;
+        this.description = description;
+        this.dateAwarded = dateAwarded;
+        this.awardedBy = awardedBy;
+        this.category = category;
+        this.student = student != null ? student : new Student(); // Ensure non-null reference
+    }
 }

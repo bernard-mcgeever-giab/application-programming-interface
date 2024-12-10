@@ -10,6 +10,7 @@
 
 package com.give_it_a_bash.application_programming_interface.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -70,18 +71,20 @@ public class Student extends Mutant {
     /**
      * The lessons that this student is enrolled in.
      */
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany
     @JoinTable(
             name = "student_lessons",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "lesson_id")
     )
+    @JsonIgnore
     private List<Lesson> lessons;
 
     /**
      * The achievements earned by this student.
      */
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany
+    @JsonIgnore
     private List<Achievement> achievements;
 
     /**
@@ -121,5 +124,11 @@ public class Student extends Mutant {
         this.lessons = lessons != null ? lessons : new ArrayList<>();
         this.achievements = achievements != null ? achievements : new ArrayList<>();
         this.status = status;
+    }
+
+    // No-args constructor (required by Hibernate)
+    public Student() {
+        super(null, null, null, null, null, null,
+                false);
     }
 }

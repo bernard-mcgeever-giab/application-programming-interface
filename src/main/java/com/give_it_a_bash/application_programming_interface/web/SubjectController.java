@@ -61,7 +61,7 @@ public class SubjectController {
      * @return ResponseEntity containing the Subject if found, otherwise a NOT_FOUND status
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Subject> getSubjectById(@PathVariable Long id) {
+    public ResponseEntity<Subject> getSubjectById(@PathVariable("id") Long id) {
         Optional<Subject> subject = subjectService.getSubjectById(id);
         return subject.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -75,7 +75,7 @@ public class SubjectController {
      * @return ResponseEntity containing the updated Subject and HTTP status
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Subject> updateSubject(@PathVariable Long id,
+    public ResponseEntity<Subject> updateSubject(@PathVariable("id") Long id,
                                                  @RequestBody Subject subjectDetails) {
         try {
             Subject updatedSubject = subjectService.updateSubject(id, subjectDetails);
@@ -92,7 +92,7 @@ public class SubjectController {
      * @return ResponseEntity with HTTP status
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSubject(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteSubject(@PathVariable("id") Long id) {
         try {
             subjectService.deleteSubject(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

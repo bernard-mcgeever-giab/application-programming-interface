@@ -66,13 +66,25 @@ public class StudentService {
      */
     public Student updateStudent(Long id, Student studentDetails) {
         return studentRepository.findById(id).map(student -> {
+            student.setId(studentDetails.getId());
+            student.setSchoolData(studentDetails.getSchoolData());
+            student.setFirstName(studentDetails.getFirstName());
+            student.setLastName(studentDetails.getLastName());
+            student.setAlias(studentDetails.getAlias());
+            student.setPower(studentDetails.getPower());
+            student.setMissionHistory(studentDetails.getMissionHistory());
+            student.setIsActive(studentDetails.getIsActive());
             student.setGuardianFirstName(studentDetails.getGuardianFirstName());
             student.setGuardianLastName(studentDetails.getGuardianLastName());
             student.setGuardianContactNumber(studentDetails.getGuardianContactNumber());
             student.setGuardianEmail(studentDetails.getGuardianEmail());
             student.setContactNumber(studentDetails.getContactNumber());
             student.setEmail(studentDetails.getEmail());
+            student.setLessons(studentDetails.getLessons());
+            student.setAchievements(studentDetails.getAchievements());
             student.setStatus(studentDetails.getStatus());
+
+
             return studentRepository.save(student);
         }).orElseThrow(() -> new RuntimeException("Student not found with id " + id));
     }

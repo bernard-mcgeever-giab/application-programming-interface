@@ -66,12 +66,21 @@ public class TeacherService {
      */
     public Teacher updateTeacher(Long id, Teacher teacherDetails) {
         return teacherRepository.findById(id).map(teacher -> {
+            teacher.setId(teacherDetails.getId());
+            teacher.setSchoolData(teacherDetails.getSchoolData());
+            teacher.setFirstName(teacherDetails.getFirstName());
+            teacher.setLastName(teacherDetails.getLastName());
+            teacher.setAlias(teacherDetails.getAlias());
+            teacher.setPower(teacherDetails.getPower());
+            teacher.setMissionHistory(teacherDetails.getMissionHistory());
+            teacher.setIsActive(teacherDetails.getIsActive());
             teacher.setEmail(teacherDetails.getEmail());
             teacher.setPhoneNumber(teacherDetails.getPhoneNumber());
             teacher.setAddress(teacherDetails.getAddress());
             teacher.setQualifications(teacherDetails.getQualifications());
             teacher.setYearsOfExperience(teacherDetails.getYearsOfExperience());
             teacher.setDepartment(teacherDetails.getDepartment());
+
             return teacherRepository.save(teacher);
         }).orElseThrow(() -> new RuntimeException("Teacher not found with id " + id));
     }

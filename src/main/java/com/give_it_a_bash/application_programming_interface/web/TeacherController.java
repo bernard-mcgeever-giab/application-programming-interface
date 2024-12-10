@@ -61,7 +61,7 @@ public class TeacherController {
      * @return ResponseEntity containing the Teacher if found, otherwise a NOT_FOUND status
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Teacher> getTeacherById(@PathVariable Long id) {
+    public ResponseEntity<Teacher> getTeacherById(@PathVariable("id") Long id) {
         Optional<Teacher> teacher = teacherService.getTeacherById(id);
         return teacher.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -75,7 +75,7 @@ public class TeacherController {
      * @return ResponseEntity containing the updated Teacher and HTTP status
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Teacher> updateTeacher(@PathVariable Long id,
+    public ResponseEntity<Teacher> updateTeacher(@PathVariable("id") Long id,
                                                  @RequestBody Teacher teacherDetails) {
         try {
             Teacher updatedTeacher = teacherService.updateTeacher(id, teacherDetails);
@@ -92,7 +92,7 @@ public class TeacherController {
      * @return ResponseEntity with HTTP status
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTeacher(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTeacher(@PathVariable("id") Long id) {
         try {
             teacherService.deleteTeacher(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

@@ -48,7 +48,7 @@ public abstract class Mutant {
     /**
      * Reference to the associated SchoolData entity.
      */
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "school_data_id")
     private SchoolData schoolData;
 
@@ -73,7 +73,7 @@ public abstract class Mutant {
      * The power associated with the mutant.
      */
     @Embedded
-    @AttributeOverride(name = "name", column = @Column(name = "power_name"))
+    @AttributeOverride(name = "name", column = @Column(name = "power_name", nullable = true))
     private Power power;
 
     /**

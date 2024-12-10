@@ -15,6 +15,7 @@ import com.give_it_a_bash.application_programming_interface.services.LessonServi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api/lessons")
+@Transactional
 public class LessonController {
 
     @Autowired
@@ -61,7 +63,7 @@ public class LessonController {
      * @return ResponseEntity containing the Lesson if found, otherwise a NOT_FOUND status
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Lesson> getLessonById(@PathVariable Long id) {
+    public ResponseEntity<Lesson> getLessonById(@PathVariable("id") Long id) {
         Optional<Lesson> lesson = lessonService.getLessonById(id);
         return lesson.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -75,7 +77,7 @@ public class LessonController {
      * @return ResponseEntity containing the updated Lesson and HTTP status
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Lesson> updateLesson(@PathVariable Long id,
+    public ResponseEntity<Lesson> updateLesson(@PathVariable("id") Long id,
                                                @RequestBody Lesson lessonDetails) {
         try {
             Lesson updatedLesson = lessonService.updateLesson(id, lessonDetails);
@@ -92,7 +94,7 @@ public class LessonController {
      * @return ResponseEntity with HTTP status
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteLesson(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteLesson(@PathVariable("id") Long id) {
         try {
             lessonService.deleteLesson(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

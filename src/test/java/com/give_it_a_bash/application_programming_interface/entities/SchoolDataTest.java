@@ -28,6 +28,7 @@ public class SchoolDataTest {
      */
     @BeforeEach
     public void setUp() {
+        TestDataHelper.reset();
         schoolData = TestDataHelper.getSCHOOL_DATA();
     }
 

@@ -30,6 +30,7 @@ public class LessonTest {
      */
     @BeforeEach
     public void setUp() {
+        TestDataHelper.reset();
         lesson = TestDataHelper.getLESSON();
     }
 

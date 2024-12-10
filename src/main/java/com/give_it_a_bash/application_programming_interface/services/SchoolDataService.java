@@ -14,7 +14,9 @@ import com.give_it_a_bash.application_programming_interface.entities.SchoolData;
 import com.give_it_a_bash.application_programming_interface.repositories.SchoolDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,10 +75,18 @@ public class SchoolDataService {
             schoolData.setAffiliation(schoolDataDetails.getAffiliation());
             schoolData.setContactInfo(schoolDataDetails.getContactInfo());
             schoolData.setActive(schoolDataDetails.isActive());
-            schoolData.setStudents(schoolDataDetails.getStudents());
-            schoolData.setTeachers(schoolDataDetails.getTeachers());
-            schoolData.setSubjects(schoolDataDetails.getSubjects());
-            schoolData.setFacilities(schoolDataDetails.getFacilities());
+            schoolData.setStudents(schoolDataDetails.getStudents() != null
+                    ? schoolDataDetails.getStudents()
+                    : new ArrayList<>());
+            schoolData.setTeachers(schoolDataDetails.getTeachers() != null
+                    ? schoolDataDetails.getTeachers()
+                    : new ArrayList<>());
+            schoolData.setSubjects(schoolDataDetails.getSubjects() != null
+                    ? schoolDataDetails.getSubjects()
+                    : new ArrayList<>());
+            schoolData.setFacilities(schoolDataDetails.getFacilities() != null
+                    ? schoolDataDetails.getFacilities()
+                    : new ArrayList<>());
             return schoolDataRepository.save(schoolData);
         }).orElseThrow(() -> new RuntimeException("School data not found with id " + id));
     }

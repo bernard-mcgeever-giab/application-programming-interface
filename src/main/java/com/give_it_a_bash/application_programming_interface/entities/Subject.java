@@ -10,19 +10,14 @@
 
 package com.give_it_a_bash.application_programming_interface.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +28,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Builder
 public class Subject {
 
     /**
@@ -59,13 +53,26 @@ public class Subject {
     /**
      * The list of students enrolled in this subject.
      */
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany
+    @JsonIgnore
     private List<Lesson> lessons;
 
     /**
      * The teacher responsible for this subject.
      */
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "teacher_id", nullable = false)
-    private Teacher teacher;
+    @ManyToMany(mappedBy = "subjects")
+    @JsonIgnore
+    private List<Teacher> teacher;
+
+    // No-argument constructor
+    public Subject() {
+    }
+
+    @Builder
+    public Subject(String name, List<Lesson> lessons, SchoolData schoolData, List<Teacher> teachers) {
+        this.name = name;
+        this.lessons = lessons != null ? lessons : new ArrayList<>();
+        this.schoolData = schoolData != null ? schoolData : new SchoolData();
+        this.teacher = teacher != null ? teachers : new ArrayList<>();
+    }
 }

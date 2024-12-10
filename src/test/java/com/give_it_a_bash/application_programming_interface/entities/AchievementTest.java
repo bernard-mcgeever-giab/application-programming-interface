@@ -30,6 +30,7 @@ public class AchievementTest {
      */
     @BeforeEach
     public void setUp() {
+        TestDataHelper.reset();
         achievement = TestDataHelper.getACHIEVEMENT();
     }
 

@@ -10,6 +10,7 @@
 
 package com.give_it_a_bash.application_programming_interface.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
@@ -64,7 +65,8 @@ public class Teacher extends Mutant {
     /**
      * The list of lessons that this teacher is responsible for.
      */
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany
+    @JsonIgnore
     private List<Lesson> lessons;
 
     /**
@@ -106,5 +108,11 @@ public class Teacher extends Mutant {
         this.department = department;
         this.lessons = lessons != null ? lessons : new ArrayList<>();
         this.subjects = subjects != null ? subjects : new ArrayList<>();
+    }
+
+    // No-args constructor (required by Hibernate)
+    public Teacher() {
+        super(null, null, null, null, null, null,
+                false);
     }
 }

@@ -28,6 +28,7 @@ public class TeacherTest {
      */
     @BeforeEach
     public void setUp() {
+        TestDataHelper.reset();
         teacher = TestDataHelper.getTEACHER();
     }
 

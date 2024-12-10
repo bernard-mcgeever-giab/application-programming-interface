@@ -61,7 +61,7 @@ public class AchievementController {
      * @return ResponseEntity containing the Achievement if found, otherwise a NOT_FOUND status
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Achievement> getAchievementById(@PathVariable Long id) {
+    public ResponseEntity<Achievement> getAchievementById(@PathVariable("id") Long id) {
         Optional<Achievement> achievement = achievementService.getAchievementById(id);
         return achievement.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -75,7 +75,7 @@ public class AchievementController {
      * @return ResponseEntity containing the updated Achievement and HTTP status
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Achievement> updateAchievement(@PathVariable Long id,
+    public ResponseEntity<Achievement> updateAchievement(@PathVariable("id") Long id,
                                                          @RequestBody Achievement achievementDetails) {
         try {
             Achievement updatedAchievement = achievementService.updateAchievement(id, achievementDetails);
@@ -92,7 +92,7 @@ public class AchievementController {
      * @return ResponseEntity with HTTP status
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAchievement(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAchievement(@PathVariable("id") Long id) {
         try {
             achievementService.deleteAchievement(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

@@ -28,6 +28,7 @@ public class PowerTest {
      */
     @BeforeEach
     public void setUp() {
+        TestDataHelper.reset();
         power = TestDataHelper.getPOWER();
     }
 

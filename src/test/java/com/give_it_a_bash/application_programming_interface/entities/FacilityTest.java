@@ -28,6 +28,7 @@ public class FacilityTest {
      */
     @BeforeEach
     public void setUp() {
+        TestDataHelper.reset();
         facility = TestDataHelper.getFACILITY();
     }
 

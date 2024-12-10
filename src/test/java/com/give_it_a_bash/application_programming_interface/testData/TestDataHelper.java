@@ -13,6 +13,7 @@ package com.give_it_a_bash.application_programming_interface.testData;
 import com.give_it_a_bash.application_programming_interface.entities.*;
 import lombok.Getter;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -25,43 +26,43 @@ import java.util.List;
 public final class TestDataHelper {
 
     @Getter
-    private static final Facility FACILITY = createFacility("Training Room", FacilityType.CLASSROOM,
+    private static Facility FACILITY = createFacility("Training Room", FacilityType.CLASSROOM,
             "A room equipped for training and practice.", true,
             "Main Building, 2nd Floor", 30, true);
 
     @Getter
-    private static final Lesson LESSON = createLesson(LocalDateTime.of(2024, 11, 1, 10, 0),
+    private static Lesson LESSON = createLesson(LocalDateTime.of(2024, 11, 1, 10, 0),
             LocalDateTime.of(2024, 11, 1, 11, 30));
 
     @Getter
-    private static final Power POWER = createPower("Telekinesis", 10,
+    private static Power POWER = createPower("Telekinesis", 10,
             "Enables the user to mentally manipulate and move objects without physical contact.",
             "Psychic", true, 10, PowerSource.GENETIC_MUTATION);
 
     @Getter
-    private static final Subject SUBJECT = createSubject("Psychic Studies");
+    private static Subject SUBJECT = createSubject("Psychic Studies");
 
     @Getter
-    private static final Teacher TEACHER = createTeacher("Charles", "Xavier",
+    private static Teacher TEACHER = createTeacher("Charles", "Xavier",
             "Professor X", "professor.xavier@example.com", "+1-555-0303",
             "1407 Graymalkin Lane, Salem Center, NY", "PhD in Genetics, Mutant Studies",
             20, "Psychic Studies", true,
             Collections.singletonList("Formed the X-Men"));
 
     @Getter
-    private static final SchoolData SCHOOL_DATA = createSchoolData("Xavier Institute for Higher Learning",
+    private static SchoolData SCHOOL_DATA = createSchoolData("Xavier Institute for Higher Learning",
             "1407 Graymalkin Lane, Salem Center, NY", "Mutatis Mutandis",
             1963, "Mutant Education and Research", "+1-555-XAVIER",
             true);
 
     @Getter
-    private static final Achievement ACHIEVEMENT = createAchievement("Outstanding Contribution",
+    private static Achievement ACHIEVEMENT = createAchievement("Outstanding Contribution",
             "Awarded for innovative contributions to the annual school science fair, showcasing practical applications of scientific concepts.",
             LocalDate.of(2021, 5, 21), "Professor Hank McCoy",
             SubjectCategory.BIOLOGY);
 
     @Getter
-    private static final Student STUDENT = createStudent("Jean", "Grey", "Phoenix",
+    private static Student STUDENT = createStudent("Jean", "Grey", "Phoenix",
             "John", "Grey", "+1-555-0101",
             "john.grey@example.com", "+1-555-0202", "jean.grey@example.com",
             true, Status.ACTIVE, Collections.singletonList("Mission X"));
@@ -77,7 +78,7 @@ public final class TestDataHelper {
 
         SUBJECT.setLessons(Collections.singletonList(LESSON));
         SUBJECT.setSchoolData(SCHOOL_DATA);
-        SUBJECT.setTeacher(TEACHER);
+        SUBJECT.setTeacher(Collections.singletonList(TEACHER));
 
         SCHOOL_DATA.setStudents(Collections.singletonList(STUDENT));
         SCHOOL_DATA.setTeachers(Collections.singletonList(TEACHER));
@@ -88,6 +89,94 @@ public final class TestDataHelper {
         STUDENT.setPower(POWER);
         STUDENT.setLessons(Collections.singletonList(LESSON));
         STUDENT.setAchievements(Collections.singletonList(ACHIEVEMENT));
+    }
+
+    private TestDataHelper() {
+        // Private constructor to prevent instantiation
+    }
+
+    public static void reset() {
+        try {
+            // Iterate through all declared fields in the class
+            for (Field field : TestDataHelper.class.getDeclaredFields()) {
+                if (java.lang.reflect.Modifier.isStatic(field.getModifiers())) {
+                    field.setAccessible(true);
+
+                    // Reinitialize static fields
+                    switch (field.getName()) {
+                        case "FACILITY":
+                            field.set(null, createFacility("Training Room", FacilityType.CLASSROOM,
+                                    "A room equipped for training and practice.", true,
+                                    "Main Building, 2nd Floor", 30, true));
+                            break;
+                        case "LESSON":
+                            field.set(null, createLesson(LocalDateTime.of(2024, 11, 1, 10, 0),
+                                    LocalDateTime.of(2024, 11, 1, 11, 30)));
+                            break;
+                        case "POWER":
+                            field.set(null, createPower("Telekinesis", 10,
+                                    "Enables the user to mentally manipulate and move objects without physical contact.",
+                                    "Psychic", true, 10, PowerSource.GENETIC_MUTATION));
+                            break;
+                        case "SUBJECT":
+                            field.set(null, createSubject("Psychic Studies"));
+                            break;
+                        case "TEACHER":
+                            field.set(null, createTeacher("Charles", "Xavier",
+                                    "Professor X", "professor.xavier@example.com", "+1-555-0303",
+                                    "1407 Graymalkin Lane, Salem Center, NY", "PhD in Genetics, Mutant Studies",
+                                    20, "Psychic Studies", true,
+                                    Collections.singletonList("Formed the X-Men")));
+                            break;
+                        case "SCHOOL_DATA":
+                            field.set(null, createSchoolData("Xavier Institute for Higher Learning",
+                                    "1407 Graymalkin Lane, Salem Center, NY", "Mutatis Mutandis",
+                                    1963, "Mutant Education and Research", "+1-555-XAVIER",
+                                    true));
+                            break;
+                        case "ACHIEVEMENT":
+                            field.set(null, createAchievement("Outstanding Contribution",
+                                    "Awarded for innovative contributions to the annual school science fair, showcasing practical applications of scientific concepts.",
+                                    LocalDate.of(2021, 5, 21), "Professor Hank McCoy",
+                                    SubjectCategory.BIOLOGY));
+                            break;
+                        case "STUDENT":
+                            field.set(null, createStudent("Jean", "Grey", "Phoenix",
+                                    "John", "Grey", "+1-555-0101",
+                                    "john.grey@example.com", "+1-555-0202", "jean.grey@example.com",
+                                    true, Status.ACTIVE, Collections.singletonList("Mission X")));
+                            break;
+                        default:
+                            throw new UnsupportedOperationException("Unrecognized field: " + field.getName());
+                    }
+                }
+            }
+
+            ACHIEVEMENT.setStudent(STUDENT);
+
+            FACILITY.setSchoolData(SCHOOL_DATA);
+
+            LESSON.setSubject(SUBJECT);
+            LESSON.setTeacher(TEACHER);
+            LESSON.setStudents(Collections.singletonList(STUDENT));
+
+            SUBJECT.setLessons(Collections.singletonList(LESSON));
+            SUBJECT.setSchoolData(SCHOOL_DATA);
+            SUBJECT.setTeacher(Collections.singletonList(TEACHER));
+
+            SCHOOL_DATA.setStudents(Collections.singletonList(STUDENT));
+            SCHOOL_DATA.setTeachers(Collections.singletonList(TEACHER));
+            SCHOOL_DATA.setFacilities(Collections.singletonList(FACILITY));
+            SCHOOL_DATA.setSubjects(Collections.singletonList(SUBJECT));
+
+            STUDENT.setSchoolData(SCHOOL_DATA);
+            STUDENT.setPower(POWER);
+            STUDENT.setLessons(Collections.singletonList(LESSON));
+            STUDENT.setAchievements(Collections.singletonList(ACHIEVEMENT));
+
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("Failed to reset TestDataHelper", e);
+        }
     }
 
     /**
@@ -191,7 +280,7 @@ public final class TestDataHelper {
                 .name(name)
                 .lessons(Collections.singletonList(LESSON))
                 .schoolData(SCHOOL_DATA)
-                .teacher(TEACHER)
+                .teachers(Collections.singletonList(TEACHER))
                 .build();
     }
 
@@ -227,6 +316,7 @@ public final class TestDataHelper {
                 .department(department)
                 .isActive(isActive)
                 .missionHistory(missionHistory)
+                .schoolData(SCHOOL_DATA)
                 .build();
     }
 

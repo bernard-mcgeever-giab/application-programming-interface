@@ -1,13 +1,3 @@
-/*
- * Copyright (c) 2024 Give It A Bash
- *
- * This file is part of Give It A Bash proprietary software.
- * Unauthorized copying of this file, via any medium, is strictly prohibited.
- * Proprietary and confidential.
- *
- * Created and maintained by Give It A Bash.
- */
-
 package com.give_it_a_bash.application_programming_interface.entities;
 
 import jakarta.persistence.*;
@@ -21,7 +11,6 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Builder
 public class Facility {
 
     /**
@@ -76,4 +65,22 @@ public class Facility {
      * Indicates whether the facility is currently operational.
      */
     private boolean isOperational;
+
+    // No-argument constructor
+    public Facility() {
+    }
+
+    @Builder
+    public Facility(String name, FacilityType type, String description, boolean isAccessible,
+                    String locationWithinCampus, int capacity, boolean isOperational,
+                    SchoolData schoolData) {
+        this.name = name;
+        this.type = type;
+        this.description = description;
+        this.isAccessible = isAccessible;
+        this.locationWithinCampus = locationWithinCampus;
+        this.capacity = capacity;
+        this.isOperational = isOperational;
+        this.schoolData = schoolData;
+    }
 }
